@@ -16,8 +16,6 @@ App simples para aplicar o método Pomodoro: você trabalha `x` minutos e descan
 
 ---
 
----
-
 ## 📸 Screenshots
 
 ![Pomodoro Timer - Home](assets/screenshots/screenshot1.png)
