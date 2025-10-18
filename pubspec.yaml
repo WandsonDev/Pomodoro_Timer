@@ -1,0 +1,56 @@
+name: pomodoro_timer
+description: "Pomodoro Timer App"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.2
+
+
+# Dependências do App
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_native_splash: ^2.4.7
+  google_fonts: ^6.3.2
+  percent_indicator: ^4.2.5
+  rename_app: ^1.6.5
+
+#flutter_launcher_icons, para trocar o icone padrão do aplicativo
+flutter_launcher_icons:
+  image_path: "assets/icon/icon.png"
+  android: true
+  ios: true
+  web:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    background_color: "#ffffff"
+    theme_color: "#ffffff"     
+  windows:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    icon_size: 256
+  macos:
+    generate: true
+    image_path: "assets/icon/icon.png"
+
+#splash nativo, tela de carrg. padrão
+flutter_native_splash:
+  color: "#F1FAEE" 
+  image: assets/icon/icon.png 
+  android: true
+  ios: true
+  web: true
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.4
+
+#cfg
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/
