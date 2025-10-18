@@ -49,46 +49,6 @@ Fonte do app: **Poppins** via [Google Fonts](https://fonts.google.com/specimen/P
 
 ---
 
-## Estrutura do Projeto
-
-```
-
-pomodoro_timer/
-├── android/                # Código e configuração Android
-├── ios/                    # Código e configuração iOS
-├── linux/                  # Código e configuração Linux
-├── macos/                  # Código e configuração macOS
-├── windows/                # Código e configuração Windows
-├── web/                    # Arquivos para Web
-├── assets/
-│   └── icon/               # Ícones do app
-├── lib/                    # Código Dart/Flutter
-│   ├── app/
-│   │   └── app.dart
-│   ├── main.dart
-│   ├── screen/
-│   │   ├── home_pages/
-│   │   │   └── home.dart
-│   │   └── loading_pages/
-│   │       └── loading.dart
-│   └── utils/
-│       └── widgets/
-│           ├── appbar_style.dart
-│           ├── button_style.dart
-│           └── progress_style.dart
-├── pubspec.yaml            # Dependências e configuração Flutter
-├── pubspec.lock
-├── README.md
-├── analysis_options.yaml
-├── pomodoro_timer.iml
-└── demais arquivos de build e configuração
-
-````
-
-> Obs: não é necessário listar todos os arquivos de build (Gradle, CMake, Xcode) no README — foco no que interessa ao dev.
-
----
-
 ## Como rodar
 ```bash
 flutter pub get
