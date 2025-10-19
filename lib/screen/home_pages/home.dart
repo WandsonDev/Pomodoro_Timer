@@ -1,8 +1,10 @@
-import 'dart:ffi';
+//import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pomodoro_timer/utils/widgets.dart';
 import 'dart:async';
+
+import 'package:pomodoro_timer/utils/widgets/picker_style.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +18,10 @@ class _HomePageState extends State<HomePage> {
   int segundo = 5;
   int tempo = 0;
   int total = 0;
+  int percent = 0;
+  int selectedMin = 0;
+  int selectedSec = 0;
+
   Color buttonCollor = Color(0xFFE63946);
   String state = "start";
   String textButton = "Iniciar Pomodoro";
@@ -24,65 +30,55 @@ class _HomePageState extends State<HomePage> {
   bool rodando = false;
 
   void startTimer() {
-    if (state == "paused") {
-      // Retomar
-      rodando = true;
-      state = "running"; // atualiza antes do texto
+    // Função interna que decrementa o tempo
+    void tick(Timer t) {
       setState(() {
-        textButton = "Pausar Pomodoro";
+        if (segundo > 0) {
+          segundo--;
+        } else if (minuto > 0) {
+          minuto--;
+          segundo = 59;
+        } else {
+          // Timer terminou
+          t.cancel();
+          rodando = false;
+          state = "start";
+          textButton = "Iniciar Pomodoro";
+          return;
+        }
+        tempo--; // decrementa contador global sempre
       });
+    }
 
-      timer = Timer.periodic(const Duration(seconds: 1), (t) {
-        setState(() {
-          if (segundo > 0) {
-            segundo--;
-          } else {
-            if (minuto > 0) {
-              minuto--;
-              segundo = 59;
-            } else {
-              t.cancel();
-              rodando = false;
-              state = "start";
-              textButton = "Iniciar Pomodoro";
-            }
-          }
-        });
-      });
-    } else if (state == "running") {
+    if (state == "running") {
       // Pausar
       timer?.cancel();
       rodando = false;
       state = "paused";
-      setState(() {
-        textButton = "Retomar Pomodoro";
-      });
-    } else if (state == "start") {
-      // Iniciar do início
+      setState(() => textButton = "Retomar Pomodoro");
+    } else {
+      // Start ou retomar
       rodando = true;
       state = "running";
-      setState(() {
-        textButton = "Pausar Pomodoro";
-      });
+      setState(() => textButton = "Pausar Pomodoro");
 
-      timer = Timer.periodic(const Duration(seconds: 1), (t) {
-        setState(() {
-          if (segundo > 0) {
-            segundo--;
-          } else {
-            if (minuto > 0) {
-              minuto--;
-              segundo = 59;
-            } else {
-              t.cancel();
-              rodando = false;
-              state = "start";
-              textButton = "Iniciar Pomodoro";
-            }
-          }
-        });
-        tempo--;
-      });
+      timer = Timer.periodic(const Duration(seconds: 1), tick);
+    }
+  }
+
+  void picker() {
+    if (state == "start") {
+      showTimePickerDialog(
+        context: context,
+        initialMin: minuto,
+        initialSec: segundo,
+        onConfirm: (min, seg) {
+          setState(() {
+            minuto = min;
+            segundo = seg;
+          });
+        },
+      );
     }
   }
 
@@ -106,24 +102,62 @@ class _HomePageState extends State<HomePage> {
               "Inicie seu primeiro Pomodoro hoje!",
               style: GoogleFonts.poppins(fontSize: 18),
             ),
-            appProgress(
-              time:
-                  "${minuto.toString().padLeft(2, '0')}:${segundo.toString().padLeft(2, '0')}",
-              percent: 1 - (tempo / total),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 50),
-              child: appButton(
-                text: textButton,
-                backgroundColor: buttonCollor,
-                onPressed: () {
-                  if (state == "start") {
-                    total = segundo + minuto * 60;
-                    tempo = total;
-                  }
-                  startTimer();
-                },
+            GestureDetector(
+              onTap: () {
+                picker();
+              },
+              child: appProgress(
+                time:
+                    "${minuto.toString().padLeft(2, '0')}:${segundo.toString().padLeft(2, '0')}",
+                percent: 1 - (tempo / total),
               ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: appButton(
+                    text: textButton,
+                    backgroundColor: buttonCollor,
+                    onPressed: () {
+                      if (state == "start") {
+                        total = segundo + minuto * 60;
+                        tempo = total;
+                      }
+                      startTimer();
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 20, bottom: 50),
+                  child: Visibility(
+                    visible: state != "start",
+                    child: GestureDetector(
+                      child: Text(
+                        "Cancelar pomodoro",
+                        style: GoogleFonts.poppins(
+                          color: Color(0xFFE63946),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      onTap: () {
+                        if (rodando || state == "paused") {
+                          timer?.cancel();
+                          setState(() {
+                            rodando = false;
+                            state = "start";
+                            minuto = 25;
+                            segundo = 0;
+                            tempo = 0;
+                            total = 0;
+                            textButton = "Iniciar Pomodoro";
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

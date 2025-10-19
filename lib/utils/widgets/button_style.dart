@@ -7,10 +7,10 @@ Widget appButton({
   double width = 280,
   double height = 40,
   double borderRadius = 15,
-  Color backgroundColor = const Color(0xFFE63946), // Tomate Vivo
-  Color foregroundColor = Colors.white, // Texto padrão
+  Color backgroundColor = const Color(0xFFE63946),
+  Color foregroundColor = Colors.white, 
   
-  Color? shadowColor, // Sombra opcional
+  Color? shadowColor, 
   double elevation = 2,
 }) {
   return SizedBox(

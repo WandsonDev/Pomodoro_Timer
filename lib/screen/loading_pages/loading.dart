@@ -36,7 +36,6 @@ class _LoadingPageState extends State<LoadingPage> {
             ),
 
             Column(
-              
               children: [
                 Text(
                   "Pomodoro",
