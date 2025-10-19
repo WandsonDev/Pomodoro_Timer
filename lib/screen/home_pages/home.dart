@@ -1,10 +1,8 @@
-//import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pomodoro_timer/utils/widgets.dart';
+import 'package:pomodoro_timer/utils/playSound/play_sound.dart';
 import 'dart:async';
-
-import 'package:pomodoro_timer/utils/widgets/picker_style.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,6 +26,12 @@ class _HomePageState extends State<HomePage> {
 
   Timer? timer;
   bool rodando = false;
+
+  @override
+  void initState() {
+    super.initState();
+    SoundService().init();
+  }
 
   void startTimer() {
     // Função interna que decrementa o tempo
@@ -85,6 +89,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     timer?.cancel();
+    SoundService().dispose();
     super.dispose();
   }
 
@@ -121,6 +126,7 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: buttonCollor,
                     onPressed: () {
                       if (state == "start") {
+                        SoundService().play('start');
                         total = segundo + minuto * 60;
                         tempo = total;
                       }
@@ -141,6 +147,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       onTap: () {
+                        SoundService().play("warning");
                         if (rodando || state == "paused") {
                           timer?.cancel();
                           setState(() {

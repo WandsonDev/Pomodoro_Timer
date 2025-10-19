@@ -46,6 +46,7 @@ Android, iOS, Web, macOS, Windows e Linux (multiplataforma via Flutter).
 | percent_indicator | ^4.2.5 | [pub.dev](https://pub.dev/packages/percent_indicator) |
 | flutter_launcher_icons | ^0.14.4 (dev) | [pub.dev](https://pub.dev/packages/flutter_launcher_icons) |
 | rename_app | ^1.6.5 | [pub.dev](https://pub.dev/packages/rename_app) |
+| flutter_soloud | 3.3.8 | [pub.dev](https://pub.dev/packages/flutter_soloud) |
 
 Fonte do app: **Poppins** via [Google Fonts](https://fonts.google.com/specimen/Poppins).
 

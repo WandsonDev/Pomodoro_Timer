@@ -15,7 +15,7 @@ AppBar buildAppBar({
       title,
       style: GoogleFonts.poppins(
         color: titleColor,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
     ),
     backgroundColor: backgroundColor,
